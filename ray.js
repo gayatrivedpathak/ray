@@ -13,13 +13,16 @@ class Color {
 }
 
 class Style {
-  constructor(property, value) {
-    this.property = property;
-    this.value = value;
+  constructor() {
+    this.style = [];
+  }
+
+  addAttribute(property, value) {
+    this.style.push(`${property}:${value}`);
   }
 
   toString() {
-    return `${this.property}:${this.value};`;
+    return this.style.join(';');
   }
 }
 
@@ -39,17 +42,16 @@ class Circle {
   }
 
   toHtml() {
-    const height = new Style('height', `${this.radius * 2}px`).toString();
-    const width = new Style('width', `${this.radius * 2}px`).toString();
-    const bgColor = new Style('background-color', this.blueColor()).toString();
-    const borderRadius = new Style('border-radius', '50%').toString();
-    const position = new Style('position', 'relative').toString();
-    const top = new Style('top', `${this.y}px`).toString();
-    const left = new Style('left', `${this.x}px`).toString();
-    const style = [
-      height, width, bgColor, borderRadius, position, left, top
-    ].join('');
-    return `<div style = "${style}"/> `;
+    const style = new Style();
+    style.addAttribute('height', `${this.radius * 2}px`);
+    style.addAttribute('width', `${this.radius * 2}px`);
+    style.addAttribute('background-color', this.blueColor());
+    style.addAttribute('border-radius', '50%');
+    style.addAttribute('position', 'relative');
+    style.addAttribute('top', `${this.y}px`);
+    style.addAttribute('left', `${this.x}px`);
+
+    return `<div style = "${style.toString()}"/> `;
   }
 }
 
@@ -64,8 +66,7 @@ class Ray {
     return Array(20).fill(1).map(() => {
       const point = { x: this.x += 3, y: this.y += 2 };
       this.initialRadius += 10;
-      const circle =
-        new Circle(point, this.initialRadius);
+      const circle = new Circle(point, this.initialRadius);
       return circle.toHtml();
     }).join('');
   }
