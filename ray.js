@@ -10,13 +10,13 @@ class Ray {
   }
 
   draw() {
-    const point = { x: this.x, y: this.y };
-    let radius = this.initialRadius;
-    return Array(this.length).fill(1).map(() => {
-      point.x += 3;
-      point.y += 2;
-      radius += 10;
-      const circle = new Circle(point, radius, blueColor(radius));
+    const origin = { x: this.x, y: this.y };
+    const initialRadius = this.initialRadius;
+    return Array(this.length).fill(1).map((_, index) => {
+      let x = origin.x + (index + 1) * 3;
+      let y = origin.y + (index + 1) * 2;
+      const radius = initialRadius * (index + 1) + 10;
+      const circle = new Circle({ x, y }, radius, blueColor(radius));
       return circle.toHtml();
     }).join('');
   }
