@@ -14,8 +14,8 @@ const drawRay = (length) => {
   }, 500);
 };
 
-const ray = new Ray({ x: 0, y: 0 }, 10, 1);
+// const ray = new Ray({ x: 0, y: 0 }, 10, 1);
 // console.log(ray.draw());
-fs.writeFileSync('ray.html', ray.draw(), 'utf8');
+// fs.writeFileSync('ray.html', ray.draw(), 'utf8');
 
-// drawRay(25);
+drawRay(25);
