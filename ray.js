@@ -1,5 +1,5 @@
-const { Circle } = require('./Circle');
 const { Color } = require('./color');
+const { Circle } = require('./Circle');
 
 class Ray {
   constructor(origin, initialRadius, length) {
@@ -12,19 +12,26 @@ class Ray {
   draw() {
     const origin = { x: this.x, y: this.y };
     const initialRadius = this.initialRadius;
-    return Array(this.length).fill(1).map((_, index) => {
-      let x = origin.x + (index + 1) * 3;
-      let y = origin.y + (index + 1) * 2;
-      const radius = initialRadius * (index + 1) + 10;
-      const circle = new Circle({ x, y }, radius, blueColor(radius));
-      return circle.toHtml();
-    }).join('');
+    const circles = [];
+    for (let step = 1; step <= this.length; step++) {
+      const circle = drawCircleAtStep(origin, step, initialRadius);
+      circles.push(circle.toHtml());
+    }
+    return circles.join('');
   }
 }
 
 const blueColor = (radius) => {
   const alpha = Math.round(100 / radius * 20);
   return new Color(0, 0, 255).rgba(alpha);
+};
+
+const drawCircleAtStep = (origin, step, initialRadius) => {
+  let x = origin.x + step * 3;
+  let y = origin.y + step * 2;
+  const radius = initialRadius * step + 10;
+  const circle = new Circle({ x, y }, radius, blueColor(radius));
+  return circle;
 };
 
 exports.Ray = Ray;
