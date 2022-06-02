@@ -9,12 +9,19 @@ class Ray {
     this.length = length;
   }
 
+  grow() {
+    this.length++;
+  }
+
+  isLongerThan(givenLength) {
+    return this.length > givenLength;
+  }
+
   draw() {
     const origin = { x: this.x, y: this.y };
-    const initialRadius = this.initialRadius;
     const circles = [];
     for (let step = 1; step <= this.length; step++) {
-      const circle = drawCircleAtStep(origin, step, initialRadius);
+      const circle = drawCircleAtStep(origin, step, this.initialRadius);
       circles.push(circle.toHtml());
     }
     return circles.join('');
@@ -27,11 +34,10 @@ const blueColor = (radius) => {
 };
 
 const drawCircleAtStep = (origin, step, initialRadius) => {
-  let x = origin.x + step * 3;
-  let y = origin.y + step * 2;
+  const dx = origin.x + step * 3;
+  const dy = origin.y + step * 2;
   const radius = initialRadius * step + 10;
-  const circle = new Circle({ x, y }, radius, blueColor(radius));
-  return circle;
+  return new Circle({ x: dx, y: dy }, radius, blueColor(radius));
 };
 
 exports.Ray = Ray;
